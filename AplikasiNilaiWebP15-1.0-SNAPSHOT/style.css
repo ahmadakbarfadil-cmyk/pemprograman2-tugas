@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+
+/* LATAR BELAKANG GRADASI PASTEL */
+body {
+    font-family: 'Quicksand', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+    background-attachment: fixed;
+    color: #2c3e50;
+}
+
+/* EFEK KACA (GLASSMORPHISM) PADA KOTAK UTAMA */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    background: rgba(255, 255, 255, 0.4); /* Putih transparan */
+    backdrop-filter: blur(15px); /* Efek blur kaca */
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    overflow: hidden;
+}
+
+/* HEADER */
+.header {
+    text-align: center;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.header h2 { margin: 0 0 5px 0; font-size: 22px; font-weight: 600; color: #4a4e69; }
+.header h1 { margin: 0 0 8px 0; font-size: 32px; letter-spacing: 2px; color: #22223b; font-weight: 700; }
+.header p { margin: 0; font-size: 15px; color: #4a4e69; font-weight: 600; }
+
+/* MAIN LAYOUT */
+.main-content { display: flex; min-height: 600px; }
+
+/* SIDEBAR KACA */
+.sidebar {
+    width: 25%;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 25px;
+    border-right: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.menu-group { margin-bottom: 30px; }
+.menu-group h4 {
+    margin-bottom: 15px;
+    font-size: 13px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    padding-bottom: 8px;
+}
+
+.menu-group a {
+    display: block;
+    text-decoration: none;
+    color: #4a4e69;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid transparent;
+}
+
+.menu-group a:hover, .menu-group a.active {
+    background: rgba(255, 255, 255, 0.7);
+    color: #6a4c93;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.menu-group a.logout { color: #d90429; }
+.menu-group a.logout:hover { background: rgba(217, 4, 41, 0.1); border-color: rgba(217, 4, 41, 0.2); }
+
+/* CONTENT (FORM AREA) */
+.content {
+    width: 75%;
+    padding: 40px;
+}
+
+.content h3 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 35px;
+    color: #22223b;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.form-group { display: flex; margin-bottom: 20px; align-items: center; }
+
+.form-group label {
+    width: 170px;
+    font-weight: 700;
+    font-size: 15px;
+    color: #4a4e69;
+}
+
+/* KOTAK INPUT EFEK KACA */
+.form-group input[type="text"], .input-group input {
+    width: 320px;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.5);
+    color: #222;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.form-group input[type="text"]:focus, .input-group input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.8);
+    border-color: #8ec5fc;
+    box-shadow: 0 0 15px rgba(142, 197, 252, 0.4);
+}
+
+.form-group input.short { width: 90px; text-align: center; }
+
+.form-group input[readonly] { 
+    background: rgba(200, 200, 200, 0.2) !important; 
+    color: #666 !important; 
+    border-color: transparent !important;
+    cursor: not-allowed; 
+}
+
+/* BUTTONS */
+.btn-group { margin-left: 170px; margin-top: 30px; }
+
+.btn, .btn-login {
+    padding: 12px 25px;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 13px;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.btn:hover, .btn-login:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+.btn-primary { background: linear-gradient(45deg, #8ec5fc, #e0c3fc); color: #4a4e69; }
+.btn-success { background: linear-gradient(45deg, #11998e, #38ef7d); }
+.btn-danger { background: linear-gradient(45deg, #ff416c, #ff4b2b); }
+.btn-warning { background: linear-gradient(45deg, #f2c94c, #f2994a); }
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+    color: #4a4e69;
+    font-weight: 600;
+}
+
+/* TABEL GLASSMORPHISM */
+table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+th, td { padding: 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.4); color: #222; font-weight: 600;}
+th { background: rgba(255, 255, 255, 0.6); color: #4a4e69; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+tr:hover { background: rgba(255, 255, 255, 0.4); }
+.tabel-container { 
+    overflow-x: auto; 
+    background: rgba(255, 255, 255, 0.2); 
+    border-radius: 15px; 
+    border: 1px solid rgba(255, 255, 255, 0.5); 
+}
