@@ -1,0 +1,302 @@
+/* --- 1. ROOT VARIABLES (Tema Cyber & Dark Glass) --- */
+:root {
+    --bg-deep: #050b14;
+    --panel-glass: rgba(15, 23, 42, 0.65);
+    --neon-blue: #00e5ff;
+    --neon-purple: #b300ff;
+    --text-main: #e2e8f0;
+    --text-dim: #94a3b8;
+    --border-glow: rgba(0, 229, 255, 0.3);
+    --border-glass: rgba(255, 255, 255, 0.08);
+}
+
+/* --- 2. RESET & BASE --- */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+    margin: 0;
+    padding: 0;
+    /* Background gradient gelap seperti ruang angkasa */
+    background: radial-gradient(circle at top right, #111827, var(--bg-deep)) !important;
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* --- 3. WRAPPER UTAMA (Efek Kaca Holografik) --- */
+center > table {
+    margin: 50px auto !important;
+    width: 90% !important;
+    max-width: 1200px;
+    border-collapse: collapse !important;
+    background-color: var(--panel-glass) !important;
+    backdrop-filter: blur(12px); /* Efek Kaca / Glassmorphism */
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border-glass) !important;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 229, 255, 0.1);
+}
+
+/* --- 4. HEADER AREA --- */
+tr[bgcolor="#dddddd"] td {
+    background: transparent !important;
+    padding: 40px 20px !important;
+    text-align: center;
+    border-bottom: 1px solid var(--border-glass);
+    position: relative;
+}
+
+/* Aksen Garis Neon di Bawah Header */
+tr[bgcolor="#dddddd"] td::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 2px;
+    background: var(--neon-blue);
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+tr[bgcolor="#dddddd"] h1 {
+    color: #ffffff !important;
+    margin: 10px 0 0 0;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); /* Efek Teks Glow */
+}
+
+tr[bgcolor="#dddddd"] h2 {
+    color: var(--neon-blue) !important;
+    margin: 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+tr[bgcolor="#dddddd"] h4 {
+    color: var(--text-dim) !important;
+    margin: 10px 0 0 0;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+/* --- 5. TOP NAVIGATION --- */
+nav {
+    padding: 15px 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid var(--border-glass);
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-dim);
+    padding: 8px 16px;
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--neon-blue);
+    border-color: var(--border-glow);
+    background: rgba(0, 229, 255, 0.05);
+    box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.1);
+}
+
+/* --- 6. SIDEBAR AREA (Kiri) --- */
+td[bgcolor="#eeffee"] {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    width: 260px !important;
+    padding: 30px 20px !important;
+    border-right: 1px solid var(--border-glass) !important;
+    vertical-align: top !important;
+}
+
+#menu b {
+    display: block;
+    color: var(--neon-purple);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 25px 0 15px 10px;
+}
+
+#menu a {
+    display: block;
+    text-decoration: none;
+    color: var(--text-main);
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 400;
+    border-left: 3px solid transparent;
+    transition: all 0.3s;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+#menu a:hover {
+    background: linear-gradient(90deg, rgba(0, 229, 255, 0.1) 0%, transparent 100%);
+    color: var(--neon-blue);
+    border-left: 3px solid var(--neon-blue);
+    padding-left: 20px;
+}
+
+/* --- 7. CONTENT AREA (Kanan) --- */
+td[bgcolor="#ffffff"] {
+    background-color: transparent !important;
+    padding: 40px !important;
+    vertical-align: top !important;
+    text-align: left !important;
+}
+
+/* Heading dalam konten */
+td[bgcolor="#ffffff"] h3 {
+    color: var(--neon-blue) !important;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* --- 8. FORM DESIGN (Transparan & Outline) --- */
+.form-container {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    padding: 35px;
+    max-width: 600px;
+    margin: 0 auto 40px 0;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.form-group { margin-bottom: 25px; }
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: var(--text-main);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: all 0.3s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+}
+
+/* Styling Dropdown/Select agar serasi di Dark Mode */
+select.form-control option {
+    background-color: var(--bg-deep);
+    color: var(--text-main);
+}
+
+.btn-primary {
+    background-color: transparent;
+    color: var(--neon-blue);
+    border: 1px solid var(--neon-blue);
+    padding: 14px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+}
+
+/* --- 9. DATA TABLE (Glow Grid) --- */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-glass);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.data-table th {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: var(--neon-purple);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 18px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-glass);
+}
+
+.data-table td {
+    padding: 16px 15px;
+    font-size: 14px;
+    color: var(--text-main);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.data-table tr:hover td {
+    background-color: rgba(0, 229, 255, 0.03);
+    color: var(--neon-blue);
+}
+
+/* Penyesuaian teks warna di dalam tabel (seperti label success/error) */
+.data-table td span {
+    background: rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid var(--border-glass) !important;
+    color: var(--neon-blue) !important;
+}
+
+/* --- 10. FOOTER --- */
+tr[bgcolor="#eeeeff"] td {
+    padding: 25px !important;
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    border-top: 1px solid var(--border-glass) !important;
+}
+
+tr[bgcolor="#eeeeff"] small {
+    color: var(--text-dim);
+    font-size: 12px;
+    letter-spacing: 1px;
+}
