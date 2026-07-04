@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Daftar Reservasi</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <h2><i class="bi bi-journal-text me-2"></i>Data Reservasi</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Data Reservasi</li>
+                    </ol>
+                </nav>
+            </div>
+            <a href="/reservasi/create" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-2"></i>Tambah Data
+            </a>
+        </div>
+    </div>
+
+    <!-- =============================================
+         FLASH MESSAGE
+         ============================================= -->
+    <div th:if="${successMessage}"
+         class="alert alert-success alert-dismissible fade show alert-auto-dismiss mb-4"
+         role="alert" id="alertSuccess">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div th:if="${errorMessage}"
+         class="alert alert-danger alert-dismissible fade show alert-auto-dismiss mb-4"
+         role="alert" id="alertError">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- =============================================
+         SEARCH / FILTER
+         ============================================= -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form action="/reservasi" method="get" id="searchForm">
+                <div class="row g-3 align-items-end">
+
+                    <div class="col-md-4">
+                        <label class="form-label"><i class="bi bi-person-search me-1"></i>Cari Nama Tamu</label>
+                        <input type="text" class="form-control" name="search"
+                               id="inputSearch"
+                               placeholder="Cari nama tamu..."
+                               th:value="${searchNama}">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label"><i class="bi bi-telephone me-1"></i>Nomor Telepon</label>
+                        <input type="text" class="form-control" name="telepon"
+                               id="inputTelepon"
+                               placeholder="Cari nomor telepon..."
+                               th:value="${searchTelepon}">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label"><i class="bi bi-door-open me-1"></i>Tipe Kamar</label>
+                        <select class="form-select" name="tipeKamar" id="selectTipeKamar">
+                            <option value="">-- Semua Tipe --</option>
+                            <option value="Standard"
+                                    th:selected="${searchTipeKamar != null and searchTipeKamar == 'Standard'}">Standard</option>
+                            <option value="Deluxe"
+                                    th:selected="${searchTipeKamar != null and searchTipeKamar == 'Deluxe'}">Deluxe</option>
+                            <option value="Suite"
+                                    th:selected="${searchTipeKamar != null and searchTipeKamar == 'Suite'}">Suite</option>
+                            <option value="Family"
+                                    th:selected="${searchTipeKamar != null and searchTipeKamar == 'Family'}">Family</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary flex-fill">
+                                <i class="bi bi-search"></i>
+                            </button>
+                            <a href="/reservasi" class="btn btn-outline-secondary flex-fill">
+                                <i class="bi bi-x-lg"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =============================================
+         DATA TABLE
+         ============================================= -->
+    <div class="card">
+        <div class="card-header bg-dark text-white d-flex align-items-center justify-content-between">
+            <span><i class="bi bi-table me-2"></i>Daftar Reservasi</span>
+            <span class="badge bg-light text-dark">
+                <span th:text="${totalData}">0</span> data ditemukan
+            </span>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0" id="tableReservasi">
+                    <thead>
+                        <tr>
+                            <th style="width:50px;">No</th>
+                            <th>ID</th>
+                            <th>Nama Tamu</th>
+                            <th>Telepon</th>
+                            <th>Email</th>
+                            <th>Tipe Kamar</th>
+                            <th>Jml Tamu</th>
+                            <th>Check In</th>
+                            <th>Check Out</th>
+                            <th>Status</th>
+                            <th class="text-center" style="width:160px;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="res, iterStat : ${listReservasi}">
+                            <td th:text="${iterStat.count}">1</td>
+                            <td>
+                                <span class="badge bg-light text-dark border"
+                                      th:text="${'#' + res.id}">#1</span>
+                            </td>
+                            <td>
+                                <div class="fw-semibold" th:text="${res.namaTamu}">-</div>
+                                <small class="text-muted" th:text="${res.email}">-</small>
+                            </td>
+                            <td th:text="${res.telepon}">-</td>
+                            <td th:text="${res.email}">-</td>
+                            <td>
+                                <span class="badge"
+                                      th:class="${res.tipeKamar == 'Standard'} ? 'badge bg-primary' :
+                                                 (${res.tipeKamar == 'Deluxe'} ? 'badge bg-success' :
+                                                 (${res.tipeKamar == 'Suite'} ? 'badge bg-warning text-dark' : 'badge bg-info text-dark'))"
+                                      th:text="${res.tipeKamar}">-</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary" th:text="${res.jumlahTamu} + ' org'">-</span>
+                            </td>
+                            <td th:text="${#temporals.format(res.checkIn, 'dd-MM-yyyy')}">-</td>
+                            <td th:text="${#temporals.format(res.checkOut, 'dd-MM-yyyy')}">-</td>
+                            <td>
+                                <span class="badge"
+                                      th:class="${res.status == 'Booked'} ? 'badge bg-warning text-dark' :
+                                                 (${res.status == 'Check In'} ? 'badge bg-success' :
+                                                 (${res.status == 'Check Out'} ? 'badge bg-secondary' : 'badge bg-danger'))"
+                                      th:text="${res.status}">-</span>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <!-- Detail -->
+                                    <a th:href="@{/reservasi/detail/{id}(id=${res.id})}"
+                                       class="btn btn-sm btn-info text-white"
+                                       title="Detail Reservasi">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <!-- Edit -->
+                                    <a th:href="@{/reservasi/edit/{id}(id=${res.id})}"
+                                       class="btn btn-sm btn-warning text-dark"
+                                       title="Edit Reservasi">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <!-- Hapus -->
+                                    <button type="button"
+                                            class="btn btn-sm btn-danger"
+                                            title="Hapus Reservasi"
+                                            th:onclick="'konfirmasiHapus(' + ${res.id} + ', \'' + ${res.namaTamu} + '\')'">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Empty State -->
+                        <tr th:if="${#lists.isEmpty(listReservasi)}">
+                            <td colspan="11" class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox fs-1 d-block mb-3"></i>
+                                <span th:if="${searchNama != '' or searchTelepon != '' or searchTipeKamar != ''}">
+                                    Tidak ada data yang sesuai dengan pencarian.
+                                </span>
+                                <span th:unless="${searchNama != '' or searchTelepon != '' or searchTipeKamar != ''}">
+                                    Belum ada data reservasi.
+                                </span>
+                                <div class="mt-3">
+                                    <a href="/reservasi/create" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-plus-circle me-1"></i>Tambah Reservasi Pertama
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center" style="font-size:0.83rem;">
+            <span class="text-muted">
+                Total: <strong th:text="${totalData}">0</strong> data reservasi
+            </span>
+            <a href="/reservasi/create" class="btn btn-primary btn-sm">
+                <i class="bi bi-plus-circle me-1"></i>Tambah Baru
+            </a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hotel Reservation System - Sistem Manajemen Reservasi Hotel">
+    <title layout:title-pattern="$CONTENT_TITLE - Hotel Reservation System">Hotel Reservation System</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =============================================
+           GLOBAL STYLES
+           ============================================= */
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1;
+        }
+
+        /* =============================================
+           SIDEBAR
+           ============================================= */
+        .sidebar {
+            width: 260px;
+            min-height: calc(100vh - 60px);
+            background: linear-gradient(180deg, #1a237e 0%, #283593 40%, #3949ab 100%);
+            position: fixed;
+            top: 60px;
+            left: 0;
+            z-index: 100;
+            padding-top: 1rem;
+            box-shadow: 3px 0 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.75);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            border-left: 3px solid transparent;
+        }
+        .sidebar .nav-link:hover {
+            color: #ffffff;
+            background-color: rgba(255,255,255,0.12);
+            border-left-color: #90caf9;
+        }
+        .sidebar .nav-link.active {
+            color: #ffffff;
+            background-color: rgba(255,255,255,0.18);
+            border-left-color: #42a5f5;
+            font-weight: 600;
+        }
+        .sidebar .nav-link i {
+            font-size: 1.1rem;
+            width: 22px;
+            text-align: center;
+        }
+        .sidebar-brand {
+            padding: 1rem 1.5rem 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            margin-bottom: 0.5rem;
+        }
+        .sidebar-brand h5 {
+            color: #fff;
+            font-weight: 700;
+            margin: 0;
+            font-size: 1rem;
+        }
+        .sidebar-brand small {
+            color: rgba(255,255,255,0.55);
+            font-size: 0.75rem;
+        }
+        .sidebar-section {
+            padding: 0.75rem 1.5rem 0.35rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: rgba(255,255,255,0.4);
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        /* =============================================
+           MAIN CONTENT AREA
+           ============================================= */
+        .main-content {
+            margin-left: 260px;
+            padding: 2rem;
+            min-height: calc(100vh - 60px);
+            margin-top: 60px;
+        }
+
+        /* =============================================
+           TOP NAVBAR
+           ============================================= */
+        .top-navbar {
+            height: 60px;
+            background: linear-gradient(90deg, #1a237e, #3949ab);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+        }
+        .top-navbar .brand {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+        }
+        .top-navbar .brand i {
+            color: #90caf9;
+        }
+
+        /* =============================================
+           CARDS
+           ============================================= */
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+        .card-header {
+            border-radius: 12px 12px 0 0 !important;
+            border-bottom: none;
+            font-weight: 600;
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            background: linear-gradient(135deg, #1565c0, #1976d2);
+            color: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+        }
+        .stat-card.green  { background: linear-gradient(135deg, #2e7d32, #388e3c); }
+        .stat-card.orange { background: linear-gradient(135deg, #e65100, #f57c00); }
+        .stat-card.purple { background: linear-gradient(135deg, #4a148c, #6a1b9a); }
+        .stat-card.teal   { background: linear-gradient(135deg, #00695c, #00897b); }
+        .stat-card .stat-icon {
+            font-size: 2.5rem;
+            opacity: 0.85;
+        }
+        .stat-card .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .stat-card .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            margin-top: 0.25rem;
+        }
+
+        /* =============================================
+           TABLE
+           ============================================= */
+        .table thead th {
+            background-color: #1a237e;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            border: none;
+            padding: 0.9rem 1rem;
+        }
+        .table tbody tr {
+            transition: background-color 0.15s ease;
+        }
+        .table tbody tr:hover {
+            background-color: #e8f0fe;
+        }
+        .table tbody td {
+            vertical-align: middle;
+            padding: 0.8rem 1rem;
+            font-size: 0.88rem;
+            border-color: #e9ecef;
+        }
+
+        /* =============================================
+           BUTTONS
+           ============================================= */
+        .btn {
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+        .btn-sm {
+            border-radius: 6px;
+        }
+
+        /* =============================================
+           BADGES
+           ============================================= */
+        .badge {
+            border-radius: 6px;
+            font-weight: 500;
+            padding: 0.35em 0.65em;
+            font-size: 0.78em;
+        }
+
+        /* =============================================
+           FORM
+           ============================================= */
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1.5px solid #dee2e6;
+            padding: 0.55rem 0.85rem;
+            font-size: 0.9rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #3949ab;
+            box-shadow: 0 0 0 0.2rem rgba(57,73,171,0.15);
+        }
+        .form-label {
+            font-weight: 500;
+            font-size: 0.88rem;
+            color: #374151;
+            margin-bottom: 0.4rem;
+        }
+
+        /* =============================================
+           ALERTS / TOAST
+           ============================================= */
+        .alert {
+            border-radius: 10px;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        /* Toast container */
+        .toast-container {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 9999;
+        }
+
+        /* =============================================
+           PAGE HEADER
+           ============================================= */
+        .page-header {
+            margin-bottom: 1.75rem;
+        }
+        .page-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a237e;
+            margin-bottom: 0.25rem;
+        }
+        .page-header .breadcrumb {
+            font-size: 0.82rem;
+        }
+
+        /* =============================================
+           FOOTER
+           ============================================= */
+        footer {
+            background: linear-gradient(90deg, #1a237e, #3949ab);
+            color: rgba(255,255,255,0.75);
+            padding: 1rem 0;
+            font-size: 0.83rem;
+            text-align: center;
+            margin-left: 260px;
+        }
+
+        /* =============================================
+           RESPONSIVE
+           ============================================= */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; }
+            footer { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navbar -->
+    <div th:replace="~{navbar :: navbar}"></div>
+
+    <!-- Sidebar -->
+    <div th:replace="~{navbar :: sidebar}"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div layout:fragment="content">
+            <!-- Content will be injected here -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{footer :: footer}"></div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Global JS: Auto-hide alerts & Toast notification -->
+    <script>
+        // Auto dismiss alerts setelah 4 detik
+        document.addEventListener('DOMContentLoaded', function () {
+            var alerts = document.querySelectorAll('.alert-auto-dismiss');
+            alerts.forEach(function (alert) {
+                setTimeout(function () {
+                    var bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }, 4000);
+            });
+
+            // Show toast jika ada flash message
+            var toastEl = document.getElementById('mainToast');
+            if (toastEl) {
+                var toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+                toast.show();
+            }
+        });
+
+        // Konfirmasi hapus
+        function konfirmasiHapus(id, nama) {
+            if (confirm('Apakah Anda yakin ingin menghapus reservasi atas nama "' + nama + '"?\nData yang dihapus tidak dapat dikembalikan.')) {
+                window.location.href = '/reservasi/delete/' + id;
+            }
+        }
+    </script>
+
+    <!-- Page-specific scripts placeholder -->
+    <div layout:fragment="scripts"></div>
+
+</body>
+</html>

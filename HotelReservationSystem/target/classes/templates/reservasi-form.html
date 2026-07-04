@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${isEdit} ? 'Edit Reservasi' : 'Tambah Reservasi'">Form Reservasi</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h2>
+            <i th:class="${isEdit} ? 'bi bi-pencil-square me-2' : 'bi bi-plus-circle me-2'"></i>
+            <span th:text="${isEdit} ? 'Edit Reservasi' : 'Tambah Reservasi Baru'">Form Reservasi</span>
+        </h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/reservasi">Data Reservasi</a></li>
+                <li class="breadcrumb-item active"
+                    th:text="${isEdit} ? 'Edit' : 'Tambah'">Form</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Error Message -->
+    <div th:if="${errorMessage}"
+         class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-xl-8 col-lg-10">
+            <div class="card">
+                <div class="card-header d-flex align-items-center gap-2"
+                     th:class="${isEdit} ? 'card-header bg-warning text-dark d-flex align-items-center gap-2' : 'card-header bg-primary text-white d-flex align-items-center gap-2'">
+                    <i th:class="${isEdit} ? 'bi bi-pencil-fill' : 'bi bi-file-earmark-plus'"></i>
+                    <span th:text="${isEdit} ? 'Form Edit Reservasi (ID: #' + reservasi.id + ')' : 'Form Tambah Reservasi Baru'">
+                        Form Reservasi
+                    </span>
+                </div>
+
+                <div class="card-body p-4">
+                    <form th:action="${isEdit} ? '/reservasi/update/' + reservasi.id : '/reservasi/save'"
+                          th:object="${reservasi}"
+                          method="post"
+                          id="reservasiForm"
+                          novalidate>
+
+                        <!-- Hidden ID for edit -->
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="row g-3">
+
+                            <!-- ===================== -->
+                            <!-- NAMA TAMU             -->
+                            <!-- ===================== -->
+                            <div class="col-md-6">
+                                <label for="namaTamu" class="form-label">
+                                    Nama Tamu <span class="text-danger">*</span>
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="namaTamu"
+                                       th:field="*{namaTamu}"
+                                       th:classappend="${#fields.hasErrors('namaTamu')} ? ' is-invalid' : ''"
+                                       placeholder="Masukkan nama lengkap tamu"
+                                       autocomplete="off">
+                                <div class="invalid-feedback"
+                                     th:if="${#fields.hasErrors('namaTamu')}"
+                                     th:errors="*{namaTamu}">Error nama</div>
+                            </div>
+
+                            <!-- ===================== -->
+                            <!-- NOMOR TELEPON         -->
+                            <!-- ===================== -->
+                            <div class="col-md-6">
+                                <label for="telepon" class="form-label">
+                                    Nomor Telepon <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="telepon"
+                                           th:field="*{telepon}"
+                                           th:classappend="${#fields.hasErrors('telepon')} ? ' is-invalid' : ''"
+                                           placeholder="Contoh: 081234567890"
+                                           maxlength="20"
+                                           autocomplete="off">
+                                    <div class="invalid-feedback"
+                                         th:if="${#fields.hasErrors('telepon')}"
+                                         th:errors="*{telepon}">Error telepon</div>
+                                </div>
+                                <small class="text-muted">Hanya boleh diisi dengan angka.</small>
+                            </div>
+
+                            <!-- ===================== -->
+                            <!-- EMAIL                 -->
+                            <!-- ===================== -->
+                            <div class="col-12">
+                                <label for="email" class="form-label">
+                                    Email <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                    <input type="email"
+                                           class="form-control"
+                                           id="email"
+                                           th:field="*{email}"
+                                           th:classappend="${#fields.hasErrors('email')} ? ' is-invalid' : ''"
+                                           placeholder="Contoh: tamu@email.com"
+                                           autocomplete="off">
+                                    <div class="invalid-feedback"
+                                         th:if="${#fields.hasErrors('email')}"
+                                         th:errors="*{email}">Error email</div>
+                                </div>
+                            </div>
+
+                            <!-- ===================== -->
+                            <!-- TIPE KAMAR            -->
+                            <!-- ===================== -->
+                            <div class="col-md-6">
+                                <label for="tipeKamar" class="form-label">
+                                    Tipe Kamar <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select"
+                                        id="tipeKamar"
+                                        th:field="*{tipeKamar}"
+                                        th:classappend="${#fields.hasErrors('tipeKamar')} ? ' is-invalid' : ''">
+                                    <option value="">-- Pilih Tipe Kamar --</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Deluxe">Deluxe</option>
+                                    <option value="Suite">Suite</option>
+                                    <option value="Family">Family</option>
+                                </select>
+                                <div class="invalid-feedback"
+                                     th:if="${#fields.hasErrors('tipeKamar')}"
+                                     th:errors="*{tipeKamar}">Error tipe kamar</div>
+                            </div>
+
+                            <!-- ===================== -->
+                            <!-- JUMLAH TAMU           -->
+                            <!-- ===================== -->
+                            <div class="col-md-6">
+                                <label for="jumlahTamu" class="form-label">
+                                    Jumlah Tamu <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-people"></i></span>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="jumlahTamu"
+                                           th:field="*{jumlahTamu}"
+                                           th:classappend="${#fields.hasErrors('jumlahTamu')} ? ' is-invalid' : ''"
+                                           placeholder="1"
+                                           min="1"
+                                           max="10">
+                                    <span class="input-group-text">orang</span>
+                                    <div class="invalid-feedback"
+                                         th:if="${#fields.hasErrors('jumlahTamu')}"
+                                         th:errors="*{jumlahTamu}">Error jumlah tamu</div>
+                                </div>
+                                <small class="text-muted">Maksimal 10 orang.</small>
+                            </div>
+
+                            <!-- ===================== -->
+                            <!-- CHECK IN              -->
+                            <!-- ===================== -->
+                            <div class="col-md-6">
+                                <label for="checkIn" class="form-label">
+                                    Tanggal Check In <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
+                                    <input type="date"
+                                           class="form-control"
+                                           id="checkIn"
+                                           th:field="*{checkIn}"
+                                           th:classappend="${#fields.hasErrors('checkIn')} ? ' is-invalid' : ''">
+                                    <div class="invalid-feedback"
+                                         th:if="${#fields.hasErrors('checkIn')}"
+                                         th:errors="*{checkIn}">Error check in</div>
+                                </div>
+                            </div>
+
+                            <!-- ===================== -->
+                            <!-- CHECK OUT             -->
+                            <!-- ===================== -->
+                            <div class="col-md-6">
+                                <label for="checkOut" class="form-label">
+                                    Tanggal Check Out <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-calendar-x"></i></span>
+                                    <input type="date"
+                                           class="form-control"
+                                           id="checkOut"
+                                           th:field="*{checkOut}"
+                                           th:classappend="${#fields.hasErrors('checkOut')} ? ' is-invalid' : ''">
+                                    <div class="invalid-feedback"
+                                         th:if="${#fields.hasErrors('checkOut')}"
+                                         th:errors="*{checkOut}">Error check out</div>
+                                </div>
+                                <small class="text-muted">Harus lebih besar dari Check In.</small>
+                            </div>
+
+                            <!-- ===================== -->
+                            <!-- STATUS                -->
+                            <!-- ===================== -->
+                            <div class="col-12">
+                                <label for="status" class="form-label">
+                                    Status Reservasi <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select"
+                                        id="status"
+                                        th:field="*{status}"
+                                        th:classappend="${#fields.hasErrors('status')} ? ' is-invalid' : ''">
+                                    <option value="">-- Pilih Status --</option>
+                                    <option value="Booked">Booked</option>
+                                    <option value="Check In">Check In</option>
+                                    <option value="Check Out">Check Out</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
+                                <div class="invalid-feedback"
+                                     th:if="${#fields.hasErrors('status')}"
+                                     th:errors="*{status}">Error status</div>
+                            </div>
+
+                        </div><!-- end .row -->
+
+                        <!-- =============================================
+                             FORM ACTIONS
+                             ============================================= -->
+                        <hr class="my-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="/reservasi" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-2"></i>Batal
+                            </a>
+                            <button type="submit" class="btn btn-primary px-4" id="btnSubmit">
+                                <i class="bi bi-save me-2"></i>
+                                <span th:text="${isEdit} ? 'Perbarui Data' : 'Simpan Data'">Simpan</span>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Client-side validation -->
+<div layout:fragment="scripts">
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var teleponInput = document.getElementById('telepon');
+        var checkInInput = document.getElementById('checkIn');
+        var checkOutInput = document.getElementById('checkOut');
+
+        // Only allow numbers in telepon field
+        if (teleponInput) {
+            teleponInput.addEventListener('input', function () {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        }
+
+        // Validate check-out > check-in on change
+        function validateDates() {
+            if (checkInInput && checkOutInput && checkInInput.value && checkOutInput.value) {
+                var checkIn = new Date(checkInInput.value);
+                var checkOut = new Date(checkOutInput.value);
+                if (checkOut <= checkIn) {
+                    checkOutInput.setCustomValidity('Check Out harus lebih besar dari Check In.');
+                    checkOutInput.classList.add('is-invalid');
+                    checkOutInput.nextElementSibling && (checkOutInput.nextElementSibling.textContent = 'Check Out harus lebih besar dari Check In.');
+                } else {
+                    checkOutInput.setCustomValidity('');
+                    checkOutInput.classList.remove('is-invalid');
+                }
+            }
+        }
+
+        if (checkInInput) checkInInput.addEventListener('change', validateDates);
+        if (checkOutInput) checkOutInput.addEventListener('change', validateDates);
+
+        // Submit button loading state
+        var form = document.getElementById('reservasiForm');
+        if (form) {
+            form.addEventListener('submit', function () {
+                var btn = document.getElementById('btnSubmit');
+                if (btn) {
+                    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...';
+                    btn.disabled = true;
+                }
+            });
+        }
+    });
+</script>
+</div>
+
+</body>
+</html>

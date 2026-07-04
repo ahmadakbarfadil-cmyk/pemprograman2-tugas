@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <footer th:fragment="footer">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col text-center">
+                    <span>
+                        &copy; <span th:text="${#dates.year(#dates.createNow())}">2025</span>
+                        <strong>Hotel Reservation System</strong> &mdash; UAS Pemrograman II.
+                        All rights reserved.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

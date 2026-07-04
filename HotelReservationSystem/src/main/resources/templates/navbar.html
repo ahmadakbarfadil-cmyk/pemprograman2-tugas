@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <!-- =============================================
+         TOP NAVBAR FRAGMENT
+         ============================================= -->
+    <nav th:fragment="navbar" class="top-navbar">
+        <div class="d-flex align-items-center w-100">
+            <!-- Brand -->
+            <a href="/" class="brand me-auto">
+                <i class="bi bi-building me-2"></i>Hotel Reservation System
+            </a>
+
+            <!-- Navbar Right -->
+            <div class="d-flex align-items-center gap-3">
+                <span class="text-white-50 d-none d-md-block" style="font-size:0.82rem;">
+                    <i class="bi bi-clock me-1"></i>
+                    <span id="currentTime"></span>
+                </span>
+                <a href="/reservasi/create" class="btn btn-sm btn-light fw-semibold">
+                    <i class="bi bi-plus-circle me-1"></i>Tambah Reservasi
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- =============================================
+         SIDEBAR FRAGMENT
+         ============================================= -->
+    <div th:fragment="sidebar" class="sidebar">
+        <!-- Brand in Sidebar -->
+        <div class="sidebar-brand">
+            <h5><i class="bi bi-building me-2" style="color:#90caf9;"></i>Hotel Resv</h5>
+            <small>Sistem Manajemen Reservasi</small>
+        </div>
+
+        <nav class="nav flex-column">
+            <!-- Menu Utama -->
+            <span class="sidebar-section">Menu Utama</span>
+
+            <a href="/" class="nav-link">
+                <i class="bi bi-speedometer2"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/reservasi" class="nav-link">
+                <i class="bi bi-journal-text"></i>
+                <span>Data Reservasi</span>
+            </a>
+
+            <!-- Aksi -->
+            <span class="sidebar-section">Aksi Cepat</span>
+
+            <a href="/reservasi/create" class="nav-link">
+                <i class="bi bi-plus-circle"></i>
+                <span>Tambah Reservasi</span>
+            </a>
+
+            <!-- Info -->
+            <span class="sidebar-section">Informasi</span>
+
+            <a href="#" class="nav-link" style="cursor:default; opacity:0.6;">
+                <i class="bi bi-info-circle"></i>
+                <span>Versi 1.0.0</span>
+            </a>
+            <a href="#" class="nav-link" style="cursor:default; opacity:0.6;">
+                <i class="bi bi-calendar3"></i>
+                <span id="sidebarDate"></span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        // Tampilkan jam real-time di navbar
+        function updateTime() {
+            var el = document.getElementById('currentTime');
+            if (el) {
+                var now = new Date();
+                el.textContent = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            }
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Tampilkan tanggal di sidebar
+        var sidebarDateEl = document.getElementById('sidebarDate');
+        if (sidebarDateEl) {
+            sidebarDateEl.textContent = new Date().toLocaleDateString('id-ID', {
+                weekday: 'short', day: '2-digit', month: 'short', year: 'numeric'
+            });
+        }
+
+        // Highlight active nav link
+        var currentPath = window.location.pathname;
+        document.querySelectorAll('.sidebar .nav-link').forEach(function (link) {
+            var href = link.getAttribute('href');
+            if (href && href !== '#') {
+                if (currentPath === href || (href !== '/' && currentPath.startsWith(href))) {
+                    link.classList.add('active');
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Detail Reservasi</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h2><i class="bi bi-person-badge me-2"></i>Detail Reservasi</h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/reservasi">Data Reservasi</a></li>
+                <li class="breadcrumb-item active">Detail</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-xl-8 col-lg-10">
+
+            <!-- =============================================
+                 DETAIL CARD
+                 ============================================= -->
+            <div class="card">
+                <!-- Card Header -->
+                <div class="card-header d-flex align-items-center justify-content-between"
+                     style="background: linear-gradient(135deg, #1a237e, #3949ab); color:#fff;">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-file-earmark-text fs-5"></i>
+                        <span class="fw-bold">
+                            Reservasi <span th:text="${'#RESV-' + reservasi.id}">#RESV-1</span>
+                        </span>
+                    </div>
+                    <!-- Status Badge -->
+                    <span class="badge fs-6"
+                          th:class="${reservasi.status == 'Booked'} ? 'badge bg-warning text-dark fs-6' :
+                                     (${reservasi.status == 'Check In'} ? 'badge bg-success fs-6' :
+                                     (${reservasi.status == 'Check Out'} ? 'badge bg-secondary fs-6' : 'badge bg-danger fs-6'))"
+                          th:text="${reservasi.status}">Booked</span>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <!-- Section: Info Tamu -->
+                    <div class="mb-4">
+                        <h6 class="text-uppercase text-muted fw-bold mb-3"
+                            style="font-size:0.75rem; letter-spacing:1px; border-bottom:1px solid #e9ecef; padding-bottom:0.5rem;">
+                            <i class="bi bi-person me-1"></i> Informasi Tamu
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="p-3 rounded" style="background:#f8f9ff; border:1px solid #e8eaf6;">
+                                    <small class="text-muted d-block">Nama Tamu</small>
+                                    <span class="fw-bold fs-5" th:text="${reservasi.namaTamu}">-</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 rounded" style="background:#f8f9ff; border:1px solid #e8eaf6;">
+                                    <small class="text-muted d-block">Nomor Telepon</small>
+                                    <span class="fw-semibold">
+                                        <i class="bi bi-telephone-fill text-primary me-1"></i>
+                                        <span th:text="${reservasi.telepon}">-</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="p-3 rounded" style="background:#f8f9ff; border:1px solid #e8eaf6;">
+                                    <small class="text-muted d-block">Email</small>
+                                    <span class="fw-semibold">
+                                        <i class="bi bi-envelope-fill text-primary me-1"></i>
+                                        <span th:text="${reservasi.email}">-</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Info Kamar -->
+                    <div class="mb-4">
+                        <h6 class="text-uppercase text-muted fw-bold mb-3"
+                            style="font-size:0.75rem; letter-spacing:1px; border-bottom:1px solid #e9ecef; padding-bottom:0.5rem;">
+                            <i class="bi bi-door-open me-1"></i> Informasi Kamar
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="p-3 rounded" style="background:#f8fff8; border:1px solid #c8e6c9;">
+                                    <small class="text-muted d-block">Tipe Kamar</small>
+                                    <span class="badge fs-6"
+                                          th:class="${reservasi.tipeKamar == 'Standard'} ? 'badge bg-primary fs-6' :
+                                                     (${reservasi.tipeKamar == 'Deluxe'} ? 'badge bg-success fs-6' :
+                                                     (${reservasi.tipeKamar == 'Suite'} ? 'badge bg-warning text-dark fs-6' : 'badge bg-info text-dark fs-6'))"
+                                          th:text="${reservasi.tipeKamar}">-</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 rounded" style="background:#f8fff8; border:1px solid #c8e6c9;">
+                                    <small class="text-muted d-block">Jumlah Tamu</small>
+                                    <span class="fw-bold fs-5">
+                                        <i class="bi bi-people-fill text-success me-1"></i>
+                                        <span th:text="${reservasi.jumlahTamu}">-</span> orang
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Info Tanggal -->
+                    <div class="mb-4">
+                        <h6 class="text-uppercase text-muted fw-bold mb-3"
+                            style="font-size:0.75rem; letter-spacing:1px; border-bottom:1px solid #e9ecef; padding-bottom:0.5rem;">
+                            <i class="bi bi-calendar3 me-1"></i> Informasi Menginap
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="p-3 rounded text-center" style="background:#fff8e1; border:1px solid #ffe082;">
+                                    <small class="text-muted d-block">Check In</small>
+                                    <span class="fw-bold"
+                                          th:text="${#temporals.format(reservasi.checkIn, 'dd MMMM yyyy')}">-</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 rounded text-center" style="background:#fce4ec; border:1px solid #f48fb1;">
+                                    <small class="text-muted d-block">Check Out</small>
+                                    <span class="fw-bold"
+                                          th:text="${#temporals.format(reservasi.checkOut, 'dd MMMM yyyy')}">-</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 rounded text-center" style="background:#e8eaf6; border:1px solid #9fa8da;">
+                                    <small class="text-muted d-block">Durasi Menginap</small>
+                                    <span class="fw-bold text-primary"
+                                          th:text="${T(java.time.temporal.ChronoUnit).DAYS.between(reservasi.checkIn, reservasi.checkOut)} + ' Malam'">
+                                        - Malam
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Info Sistem -->
+                    <div>
+                        <h6 class="text-uppercase text-muted fw-bold mb-3"
+                            style="font-size:0.75rem; letter-spacing:1px; border-bottom:1px solid #e9ecef; padding-bottom:0.5rem;">
+                            <i class="bi bi-info-circle me-1"></i> Informasi Sistem
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <small class="text-muted d-block">Dibuat pada</small>
+                                <span th:if="${reservasi.createdAt != null}"
+                                      th:text="${#temporals.format(reservasi.createdAt, 'dd MMM yyyy HH:mm')}">-</span>
+                                <span th:unless="${reservasi.createdAt != null}">-</span>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted d-block">Terakhir diperbarui</small>
+                                <span th:if="${reservasi.updatedAt != null}"
+                                      th:text="${#temporals.format(reservasi.updatedAt, 'dd MMM yyyy HH:mm')}">-</span>
+                                <span th:unless="${reservasi.updatedAt != null}">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- end card-body -->
+
+                <!-- Card Footer: Aksi -->
+                <div class="card-footer bg-white py-3 d-flex justify-content-between align-items-center">
+                    <a href="/reservasi" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-2"></i>Kembali
+                    </a>
+                    <div class="d-flex gap-2">
+                        <a th:href="@{/reservasi/edit/{id}(id=${reservasi.id})}"
+                           class="btn btn-warning text-dark">
+                            <i class="bi bi-pencil me-2"></i>Edit
+                        </a>
+                        <button type="button"
+                                class="btn btn-danger"
+                                th:onclick="'konfirmasiHapus(' + ${reservasi.id} + ', \'' + ${reservasi.namaTamu} + '\')'">
+                            <i class="bi bi-trash me-2"></i>Hapus
+                        </button>
+                    </div>
+                </div>
+
+            </div><!-- end card -->
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
